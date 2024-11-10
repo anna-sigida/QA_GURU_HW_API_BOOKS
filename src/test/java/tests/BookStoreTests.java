@@ -1,6 +1,5 @@
 package tests;
 
-import helpers.LoginExtension;
 import helpers.WithLogin;
 import models.Bookstore.BookModel;
 import models.Session;
@@ -30,8 +29,7 @@ public class BookStoreTests extends TestBase {
     @WithLogin
     @DisplayName("Удаление книги из профиля")
     @Test
-    void deleteBookFromProfileTest() {
-        Session session = LoginExtension.getSession();
+    void deleteBookFromProfileTest(Session session) {
         List<BookModel> books;
         String isbn;
         List<BookModel> collectionOfIsbns = new ArrayList<>();

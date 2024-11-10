@@ -2,11 +2,10 @@ package helpers;
 
 import models.Session;
 import models.Bookstore.response.LoginResponseModel;
-import org.junit.jupiter.api.extension.BeforeEachCallback;
-import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.api.extension.*;
 import controllers.BookstoreAuthController;
 
-public class LoginExtension implements BeforeEachCallback {
+public class LoginExtension implements BeforeEachCallback, ParameterResolver {
 
     private static final ThreadLocal<Session> session = new ThreadLocal<>();
 
@@ -19,7 +18,7 @@ public class LoginExtension implements BeforeEachCallback {
     }
 
     @Override
-    public void beforeEach(ExtensionContext extensionContext) throws Exception {
+    public void beforeEach(ExtensionContext context) throws Exception {
         Session newSession = new Session();
         LoginResponseModel authResponse = BookstoreAuthController.getAuthorization();
         newSession.setUserId(authResponse.getUserId());
@@ -28,5 +27,15 @@ public class LoginExtension implements BeforeEachCallback {
         session.set(newSession);
 
         BookstoreAuthController.buildAuthorizationCookie(session.get());
+    }
+
+    @Override
+    public boolean supportsParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+        return parameterContext.getParameter().getType().equals(Session.class);
+    }
+
+    @Override
+    public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
+        return getSession();
     }
 }
