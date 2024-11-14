@@ -40,7 +40,7 @@ gradle clean test bookstore_tests - локально у себя на устро
 ### Результат выполнения автотеста
 
 <p align="center">
-<img title="Test Results in Alure TestOps" src="images/allure.png">
+<img title="Test Results in Allure" src="images/allure.png">
 </p>
 
 
